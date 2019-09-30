@@ -1,2 +1,5 @@
 ---
 # vars file for app-tier
+app_dir:
+    - { name: ROOT, content_src: index.html.j2, content_dist: index.html }
+    - { name: ansible, content_src: index.html.app.j2, content_dist: index.html }

@@ -1,0 +1,26 @@
+---
+  - name: Install Tomcat
+    package:
+      name: tomcat
+      state: latest
+
+  - name: Create Tomcat directory
+    file:
+      path: "/usr/share/tomcat/webapps/{{ item.name }}"
+      state: directory
+    loop: "{{ app_dir }}" 
+    notify: Restart Tomcat
+
+  - name: Copy index.html to Tomcat webapps
+    template:
+      src: "{{ item.content_src }}"
+      dest: "/usr/share/tomcat/webapps/{{ item.name }}/{{ item.content_dist }}"
+      mode: 0644
+    loop: "{{ app_dir }}" 
+    notify: Restart Tomcat
+
+  - name: Start and enable Tomcat
+    service:
+      name: tomcat
+      state: started
+      enabled: yes

@@ -4,7 +4,7 @@
 
 - name: Associate IG to OSP instances job template 
   command: |
-    tower-cli job_template associate_ig --job_template "{{job_template_name_osp_instances}}" --instance_group "{{instance_group_name}}"
+    tower-cli job_template associate_ig --job-template "{{job_template_name_osp_instances}}" --instance-group "{{instance_group_name}}"
 
 
 - name: Create vault credential
@@ -13,11 +13,11 @@
 
 - name: Job template for 3tier app deploy on QA Env
   command: |
-    tower-cli job_template create --name "{{job_template_name_3tier_app}}" --job-type run --inventory "{{static_inventory_name}}" --project "{{proj_name}}" --playbook "{{app_deploy_playbook}}" --credential "{{ssh_cred_name}}" --vault-credential "yum-repo-cred"
+    tower-cli job_template create --name "{{job_template_name_3tier_app}}" --job-type run --inventory "{{static_inventory_name}}" --project "{{proj_name}}" --playbook "{{app_deploy_playbook}}" --credential "{{ssh_cred_name}}" --vault-credential "yum-repo-cred" --extra-vars="GUID={{ osp_GUID }}"
 
 - name: Associate IG to 3tier job template  
   command: |
-    tower-cli job_template associate_ig --job_template "{{job_template_name_3tier_app}}" --instance_group "{{instance_group_name}}"
+    tower-cli job_template associate_ig --job-template "{{job_template_name_3tier_app}}" --instance-group "{{instance_group_name}}"
 
 
 - name: Job template to delete OSP Instances
@@ -26,7 +26,7 @@
 
 - name: Associate IG to OSP Delete instances job template 
   command: |
-    tower-cli job_template associate_ig --job_template "{{job_template_name_osp_instances_delete}}" --instance_group "{{instance_group_name}}"
+    tower-cli job_template associate_ig --job-template "{{job_template_name_osp_instances_delete}}" --instance-group "{{instance_group_name}}"
 
 
 - name: Job template for smoke test osp instances
@@ -35,7 +35,7 @@
 
 - name: Associate IG to Smoke test job template 
   command: |
-    tower-cli job_template associate_ig --job_template "{{job_template_smoke_osp}}" --instance_group "{{instance_group_name}}"
+    tower-cli job_template associate_ig --job-template "{{job_template_smoke_osp}}" --instance-group "{{instance_group_name}}"
 
 - name: Job template for Provisioning AWS env
   command: |
@@ -51,7 +51,7 @@
 
 - name: Job template for 3tier AWS deploy
   command: |
-    tower-cli job_template create --name "{{job_template_name_3tier_app_aws}}" --job-type run --inventory "{{ec2_dynamic_inventory}}" --project "{{proj_name}}" --playbook "{{app_deploy_playbook}}"  --vault-credential "yum-repo-cred"
+    tower-cli job_template create --name "{{job_template_name_3tier_app_aws}}" --job-type run --inventory "{{ec2_dynamic_inventory}}" --project "{{proj_name}}" --playbook "{{app_deploy_playbook}}"  --vault-credential "yum-repo-cred" --extra-vars="GUID={{ tower_GUID }}"
 
 - name: Job template for smoke test aws instances
   command: |

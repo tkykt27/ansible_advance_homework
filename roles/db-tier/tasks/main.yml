@@ -1,2 +1,21 @@
 ---
 # tasks file for db-tier
+  - name: Install postgres
+    yum:
+      name: postgresql-server
+      state: latest
+
+  - name: Check whether db cluster exist
+    stat:
+      path: "/var/lib/pgsql/data"
+    register: pgsql_cluster
+
+  - name: initilize postgres
+    command: postgresql-setup initdb
+    when: pgsql_cluster.stat.exists != true or pgsql_cluster.stat.nlink == 2 
+
+  - name: Start and enable postgres
+    service:
+      name: postgresql.service
+      state: started
+      enabled: yes
